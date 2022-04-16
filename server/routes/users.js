@@ -1,8 +1,7 @@
 const express = require('express');
-const { append } = require('express/lib/response');
-const jsonwebtoken = require('jsonwebtoken');
 const router = express.Router();
 const { User } = require('../models/User');
+const { auth }  = require('../middleware/auth');
 
 // 회원 가입
 router.post('/register', (req, res) => {
@@ -19,7 +18,7 @@ router.post('/register', (req, res) => {
 
 // 로그인
 router.post('/login', (req, res) => {
-    User.findOne( { email: req.body.email }, (err, user) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
         if(!user) {
             return res.status(400).json({
                 Success: false, message: '인증 실패 또는 email을 찾지 못했습니다.'
@@ -44,7 +43,7 @@ router.post('/login', (req, res) => {
     })
 })
 
-router.get('/auth', (req, res) => {
+router.get('/auth', auth, (req, res) => { // auth함수를 거쳐 인증이 되면 req에 token과 user정보가 담김
     res.status(200).json({
         _id: req.user._id,
         isAdmin: req.userole === 0 ? false: true,
@@ -54,9 +53,9 @@ router.get('/auth', (req, res) => {
     })
 })
 
-
-router.get('/logout', (req, res) => {
-    User.findOneAndUpdate({_id: req.user._id}, { token: '' },
+router.get('/logout', auth, (req, res) => {
+    // 해당 유저를 찾아 유저의 토큰 정보를 지움 => 이후 API호출시 인증 단계에서 막히게 됨
+    User.findOneAndUpdate({ _id: req.user._id }, { token: '', tokenExp: '' },
         (err, user) => {
             if(err) return res.json({ success: false, err});
             return res.status(200).send({
