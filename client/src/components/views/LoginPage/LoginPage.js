@@ -4,60 +4,35 @@ import TextField from '@mui/material/TextField';
 
 const LoginPage = () => {
   return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 700 }}>
       <div>
-        <TextField
-          required
-          id="outlined-required"
-          label="ID"
-          defaultValue="ID"
-        />
-      </div>
-      <div>
-        <TextField
-          disabled
-          id="outlined-disabled"
-          label="Disabled"
-          defaultValue="Hello World"
-        />
-      </div>
-      <div>
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-        />
-      </div>
-      <div>
-        <TextField
-          id="outlined-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
+        <h2 style={{ display: 'flex', justifyContent: 'center' }}>로그인</h2>
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch' },
           }}
-        />
+          noValidate
+          autoComplete="off"
+        >
+          <div>
+            <TextField
+              required
+              id="outlined-required"
+              label="ID"
+            />
+          </div>
+          <div>
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+            />
+          </div>
+        </Box>
       </div>
-      <div>
-        <TextField id="outlined-search" label="Search field" type="search" />
-      </div>
-      <div>
-        <TextField
-          id="outlined-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          helperText="Some important text"
-        />
-      </div>
-    </Box>
+    </div>
   )
 }
 
