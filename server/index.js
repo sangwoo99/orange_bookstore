@@ -4,21 +4,21 @@ const config = require('./config/key');
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
-const connect = mongoose.connect(config.mongoURI,
-    // {
-    //     usenewUrlParser: true, useUnifiedTopology: true,
-    //     useCreateIndex: true, useFindAndModify: false
-    // }
-    )
-    .then(() => console.log('MongDB Connected...'))
-    .catch(err => console.log(err));
+mongoose.connect(config.mongoURI,
+// {
+//     usenewUrlParser: true, useUnifiedTopology: true,
+//     useCreateIndex: true, useFindAndModify: false
+// }
+)
+.then(() => console.log('MongDB Connected...'))
+.catch(err => console.log(err));
 
 //application/x-www-form
 app.use(bodyParser.urlencoded({extended: true}));
 //application/json
 app.use(bodyParser.json());
 
-app.use('api/users', require('./routes/users'));
+app.use('/api/users', require('./routes/users'));
 
 
 if(process.env.NODE_ENV === 'production') {

@@ -29,9 +29,10 @@ const userSchema = mongoose.Schema({
 });
 
 // 각 API에서 save하면 먼저 동작하는 함수
-userSchema.pre('save', () => {
-    let user = this;
+userSchema.pre('save', function(next) { // next를 파라미터로 받아줘야함
+    let user = this; // this를 가져오기 위해서 화살표 함수가 아닌 function함수(일반함수)로 써야함
 
+    console.log('user', user);
     if(user.isModified('password')) {
         // 비밀번호를 암호화함
         bcrypt.genSalt(saltRounds, (err, salt) => {

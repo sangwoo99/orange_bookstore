@@ -5,7 +5,7 @@ const { auth }  = require('../middleware/auth');
 
 // 회원 가입
 router.post('/register', (req, res) => {
-
+    console.log('/register', req.body);
     const user = new User(req.body);
 
     // userSchema에 설정해둔 save시 먼저 동작하는 함수에 의해 비밀번호가 먼저 암호화되고 저장됨

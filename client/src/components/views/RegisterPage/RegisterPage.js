@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -38,22 +39,24 @@ const RegisterPage = () => {
     }
 
     let body = {
-      id : ID,
+      id: ID,
       name: Name,
       password: Password
     };
 
-    console.log('body:', body);
-
+    // 서로 다른 두 포트를 가지고 있는 서버는 그냥 request를 보낼 수 없어 에러남(by CORS정책)
+    // https://create-react-app.dev/docs/proxying-api-requests-in-development 참고
+    // => proxy 설정
     axios.post('/api/users/register', body)
       .then( res => {
-        if(res.success) {
-          navigator('/login');
+        console.log(res);
+        if(res.data.success) {
+          navigator('/login'); //해당 url로 이동
+        } else {
+          alert('400 error:', res.data.err);
         }
-
-        alert('400 error');
       })
-      .fail(alert('API Failed'))
+      .catch(console.log('API Failed'))
   }
 
   return (
@@ -120,7 +123,7 @@ const RegisterPage = () => {
             />
           </div>
         </Box>
-        <button type='submit'>회원 가입</button>
+        <Button variant="contained" type='submit'>회원 가입</Button>
       </form>
     </div>
   )
