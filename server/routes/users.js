@@ -18,7 +18,7 @@ router.post('/register', (req, res) => {
 
 // 로그인
 router.post('/login', (req, res) => {
-    User.findOne({ email: req.body.email }, (err, user) => {
+    User.findOne({ id: req.body.id }, (err, user) => {
         if(!user) {
             return res.status(400).json({
                 Success: false, message: '인증 실패 또는 email을 찾지 못했습니다.'
@@ -27,17 +27,19 @@ router.post('/login', (req, res) => {
 
         // 사용자가 입력한 비밀번호랑 DB에 저장된 암호화된 비밀번호를 bcrypt를 이용하여 비교
         user.comparePassword(req.body.password, (isMatch, err) => {
+            console.log('comparePassword');
             // 비밀번호가 맞지 않을때
             if(!isMatch) return res.json({ loginSuccess: false, message: '비밀번호가 틀렸습니다.'});
             
             // 비밀번호가 맞을때 토큰 생성
             user.generateToken((user, err) => {
+                console.log('generateToken err:',err);
                 if(err) return res.status(400).send(err);
 
                 // 쿠키에 토큰 저장
                 res.cookie('x_auth', user.token)
                     .status(200)
-                    .json({ loginSuccess: true, userId: user._id })
+                    .json({ loginSuccess: true, userId: user.id })
             })
         });
     })

@@ -14,12 +14,10 @@ const RegisterPage = () => {
 
   const handleName = (e) => {
     setName(e.target.value);
-    console.log(Name);
   };
 
   const handleID = (e) => {
     setID(e.target.value); 
-    console.log(ID);
   };
 
   const handlePassword = (e) => {
@@ -60,7 +58,7 @@ const RegisterPage = () => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '80vh' }}>
       <form onSubmit={handleOnSubmit}>
         <h2 style={{ display: 'flex', justifyContent: 'center' }}>회원 가입</h2>
         <Box
@@ -123,7 +121,9 @@ const RegisterPage = () => {
             />
           </div>
         </Box>
-        <Button variant="contained" type='submit'>회원 가입</Button>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button variant="contained" type='submit'>회원 가입</Button>
+        </div>
       </form>
     </div>
   )

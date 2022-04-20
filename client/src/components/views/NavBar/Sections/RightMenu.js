@@ -20,6 +20,7 @@ const RightMenu = () => {
         <Box sx={{ width: '100%' }}>
             <Tabs onChange aria-label="nav tabs example">
             <LinkTab label="로그인" href="/login" />
+            <LinkTab label="로그아웃" href="/logout" />
             <LinkTab label="회원 가입" href="/register" />
             </Tabs>
         </Box>
