@@ -1,10 +1,12 @@
-import { React, useState } from 'react'
+import { React, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Box, TextField } from '@mui/material';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../../../_actions/user_actions';
 
 const LoginPage = () => {
   const navigator = useNavigate();
+  const dispatch = useDispatch(); // 리덕스의 액션을 디스패치함
 
   const [ID, setID] = useState('');
   const [Password, setPassword] = useState('');
@@ -27,13 +29,16 @@ const LoginPage = () => {
       password: Password
     };
 
-    axios.post('/api/users/login', body)
+    dispatch(loginUser(body))
       .then(res => {
-        if(res.data.loginSuccess) {
-          console.log(res.data.success);
+        if(res.payload.loginSuccess) {
+          console.log(res.payload.loginSuccess);
           navigator('/');
+        } else {
+          console.log(res);
         }
       })
+      .catch(err => console.log(err));
   };
 
   return (

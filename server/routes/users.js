@@ -48,7 +48,7 @@ router.post('/login', (req, res) => {
 router.get('/auth', auth, (req, res) => { // auth함수를 거쳐 인증이 되면 req에 token과 user정보가 담김
     res.status(200).json({
         _id: req.user._id,
-        isAdmin: req.userole === 0 ? false: true,
+        isAdmin: req.user.ole === 0 ? false: true,
         isAuth: true,
         email: req.user.email,
         name: req.user.name,
