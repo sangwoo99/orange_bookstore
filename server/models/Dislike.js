@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 
 const dislikeSchema = mongoose.Schema({
     userId: {
-        type: Schema.Types.ObjectID,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
     commentId: {
-        type: Schema.Types.ObjectID,
+        type: Schema.Types.ObjectId,
         ref: 'Comment' 
     },
     bookId: {
-        type: Schema.Types.ObjectID,
+        type: Schema.Types.ObjectId,
         ref: 'Book' 
     }
 });
