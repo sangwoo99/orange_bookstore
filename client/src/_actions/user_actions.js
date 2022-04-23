@@ -2,6 +2,10 @@ import axios from 'axios';
 import { REGISTER_USER, LOGIN_USER, LOGOUT_USER, AUTH_USER }from './types';
 import { USER_SERVER } from '../components/Config';
 
+const consoleLog = (apiPath) => {
+    console.log(`[API-REQ][user_actions][${apiPath}]`);
+}
+
 // export function registerUser(data) {
 //     const request = axios.post(`${USER_SERVER}/register`, data)
 //         .then(res => res.data);
@@ -13,6 +17,7 @@ import { USER_SERVER } from '../components/Config';
 // };
 
 export function loginUser(body) {
+    consoleLog('/login');
     const request = axios.post(`${USER_SERVER}/login`, body)
         .then(res => res.data);
 
@@ -23,6 +28,7 @@ export function loginUser(body) {
 };
 
 export function logoutUser(body) {
+    consoleLog('/logout');
     const request = axios.get(`${USER_SERVER}/logout`, body)
         .then(res => res.data);
 
@@ -33,6 +39,7 @@ export function logoutUser(body) {
 };
 
 export function auth() {
+    consoleLog('/auth');
     const request = axios.get(`${USER_SERVER}/auth`)
         .then(res => res.data);
     

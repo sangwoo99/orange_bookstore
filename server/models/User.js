@@ -72,7 +72,8 @@ userSchema.methods.generateToken = function(cb) {
     })
 };
 
-userSchema.methods.findByToken = (token, cb) => {
+// 화살표 함수가 아니라 일반 함수 써야함
+userSchema.methods.findByToken = function(token, cb) {
     let user = this;
     
     // 토큰을 복호화해서 다시 유저 아이디로 만들고 

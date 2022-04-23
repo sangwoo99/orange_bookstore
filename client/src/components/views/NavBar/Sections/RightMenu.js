@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -32,21 +32,42 @@ const RightMenu = (props) => {
         );
     };
 
-    return (
-        <Box sx={{ width: '100%' }}>
-            <Tabs onChange aria-label="nav tabs example">
-            {
-                user.userData && user.userData.isAuth 
-                ? <LinkTab label="로그아웃" onClick={handleLogout} />    
-                : <>
-                    <LinkTab label="로그인" href="/login" />
+    // 부모 태그로 묶으면 href 안되는 현상 해결방법
+    if( user.userData && user.userData.isAuth ) {
+        return (
+            <Box sx={{ width: '100%' }}>
+                <Tabs onChange aria-label="nav tabs example">
+                    <LinkTab label="로그아웃" onClick={handleLogout} />    
+                </Tabs>
+            </Box>
+        );
+    } else {
+        return (
+            <Box sx={{ width: '100%' }}>
+                <Tabs onChange aria-label="nav tabs example">
+                    <LinkTab label="로그인" href="/login" /> 
                     <LinkTab label="회원 가입" href="/register" />
-                  </>
-                    
-            }
-            </Tabs>
-        </Box>
-    );
+                </Tabs>
+            </Box>
+        );
+    }
+
+    // return (
+    //     <Box sx={{ width: '100%' }}>
+    //         <Tabs onChange aria-label="nav tabs example">
+    //             {
+    //                 user.userData && user.userData.isAuth 
+    //                 ? <LinkTab label="로그아웃" onClick={handleLogout} />    
+    //                 : <>
+    //                     <LinkTab label="로그인" href="/login" /> 
+    //                     <LinkTab label="회원 가입" href="/register" />
+    //                 </>
+    //                 // 눌러도 해당 url로 이동이 안됨, JSX 내부에서는 부모로 묶으면 href가 안되나?
+    //             }
+    //         </Tabs>
+    //     </Box>
+    // );
+    
 }
 
 export default RightMenu;

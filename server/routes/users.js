@@ -33,7 +33,7 @@ router.post('/login', (req, res) => {
             
             // 비밀번호가 맞을때 토큰 생성
             user.generateToken((user, err) => {
-                console.log('generateToken err:',err);
+                console.log('generateToken err: ', err);
                 if(err) return res.status(400).send(err);
 
                 // 쿠키에 토큰 저장
@@ -46,9 +46,10 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/auth', auth, (req, res) => { // auth함수를 거쳐 인증이 되면 req에 token과 user정보가 담김
+    console.log('/auth');
     res.status(200).json({
         _id: req.user._id,
-        isAdmin: req.user.ole === 0 ? false: true,
+        // isAdmin: req.user.role === 0 ? false: true,
         isAuth: true,
         email: req.user.email,
         name: req.user.name,

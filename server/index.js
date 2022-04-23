@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const config = require('./config/key');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const mongoose = require('mongoose');
 mongoose.connect(config.mongoURI,
@@ -17,6 +18,7 @@ mongoose.connect(config.mongoURI,
 app.use(bodyParser.urlencoded({extended: true}));
 //application/json
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
 
