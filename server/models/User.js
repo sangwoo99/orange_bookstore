@@ -57,8 +57,11 @@ userSchema.methods.comparePassword = (plainPassword, cb) => {
     })
 };
 
+// 화살표 함수가 아니라 일반 함수 써야함
+// methods: 해당 메서드를 호출한 객체가 메서드 내의 this가 됨
+// statics: 호출한 객체에 상관없이 모델 자체가 this
 userSchema.methods.generateToken = function(cb) {
-    let user = this;
+    let user = this; // 호출한 객체
     console.log('user1', user);
     // 유저 아이디를 암호화해서 토큰을 생성
     let token = jwt.sign(user._id.toHexString(), 'secretToken');
@@ -72,13 +75,14 @@ userSchema.methods.generateToken = function(cb) {
     })
 };
 
-// 화살표 함수가 아니라 일반 함수 써야함
-userSchema.methods.findByToken = function(token, cb) {
-    let user = this;
+userSchema.statics.findByToken = function(token, cb) {
+    let user = this; // 모델자체, 그래서 아래에서 바로 findOne()를 쓸 수 있음
     
     // 토큰을 복호화해서 다시 유저 아이디로 만들고 
     // DB에서 해당 유저 아이디와 토큰에 일치하는 유저 정보를 가져온다.
-    jwt.verify(token, 'secretToken', (decoded, err) => {
+    // **JsonWebTokenError: jwt must be provided 는 인수 token이 undefined나 null 일때 나타남
+    jwt.verify(token, 'secretToken', (err, decoded) => { // **콜백함수의 파라미터의 첫번째는 err여야 한다.
+        console.log('decoded: ', decoded);
         user.findOne({'_id': decoded, 'token': token }, (user, err) => {
             if(err) return cb(err);
             cb(null, user)

@@ -43,7 +43,7 @@ router.post('/login', (req, res) => {
             })
         });
     })
-})
+});
 
 router.get('/auth', auth, (req, res) => { // auth함수를 거쳐 인증이 되면 req에 token과 user정보가 담김
     console.log('/auth');
@@ -54,7 +54,7 @@ router.get('/auth', auth, (req, res) => { // auth함수를 거쳐 인증이 되�
         email: req.user.email,
         name: req.user.name,
     })
-})
+});
 
 router.get('/logout', auth, (req, res) => {
     // 해당 유저를 찾아 유저의 토큰 정보를 지움 => 이후 API호출시 인증 단계에서 막히게 됨
@@ -67,6 +67,6 @@ router.get('/logout', auth, (req, res) => {
         }
     )
 
-})
+});
 
 module.exports = router;

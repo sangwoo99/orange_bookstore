@@ -2,18 +2,27 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutUser } from '../../../../_actions/user_actions';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { USER_SERVER } from '../../../Config';
+import { apiReqLog, apiResLog } from '../../utils/loghelper';
+import { useNavigate } from 'react-router-dom';
+
 // import withRouter from 'react-router-dom'
 
 const RightMenu = (props) => {
-    const dispatch = useDispatch();
+    const navigator = useNavigate();
     const user = useSelector(state => state.user); // 리덕스에서 state를 가져옴
     
     const handleLogout = () => {
-        dispatch(logoutUser()).then( res => {
-            if(res.payload.status === 200) {
-                props.history.push('/');
+        apiReqLog('/logout', 'RightMenu');
+        axios.get(`${USER_SERVER}/logout`).then( res => {
+            apiResLog('/logout', 'RightMenu', res.data);
+
+            if(res.data.success) {
+                document.cookie = 'x_auth=';
+                navigator('/'); // props.history.push('/'); **새로고침이 안됨 => 컴포넌트가 재렌더링 되지 않음
+                window.location.reload(); // 새로고침 시켜주는 window 객체 내장 함수 사용
             } else {
                 alert('로그아웃 실패');
             }
@@ -36,7 +45,7 @@ const RightMenu = (props) => {
     if( user.userData && user.userData.isAuth ) {
         return (
             <Box sx={{ width: '100%' }}>
-                <Tabs onChange aria-label="nav tabs example">
+                <Tabs aria-label="nav tabs example">
                     <LinkTab label="로그아웃" onClick={handleLogout} />    
                 </Tabs>
             </Box>

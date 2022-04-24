@@ -1,25 +1,13 @@
 import axios from 'axios';
-import { REGISTER_USER, LOGIN_USER, LOGOUT_USER, AUTH_USER }from './types';
+import { LOGIN_USER, AUTH_USER }from './types';
 import { USER_SERVER } from '../components/Config';
-
-const consoleLog = (apiPath) => {
-    console.log(`[API-REQ][user_actions][${apiPath}]`);
-}
-
-// export function registerUser(data) {
-//     const request = axios.post(`${USER_SERVER}/register`, data)
-//         .then(res => res.data);
-
-//     return {
-//         type: REGISTER_USER,
-//         payload: request
-//     }
-// };
+import { apiReqLog, apiResLog } from '../components/views/utils/loghelper';
 
 export function loginUser(body) {
-    consoleLog('/login');
+    apiReqLog('/login', 'loginUser', body);
     const request = axios.post(`${USER_SERVER}/login`, body)
         .then(res => res.data);
+    apiResLog('/login', 'loginUser');
 
     return {
         type: LOGIN_USER,
@@ -27,22 +15,12 @@ export function loginUser(body) {
     }
 };
 
-export function logoutUser(body) {
-    consoleLog('/logout');
-    const request = axios.get(`${USER_SERVER}/logout`, body)
-        .then(res => res.data);
-
-    return {
-        type: LOGOUT_USER,
-        payload: request
-    }
-};
-
 export function auth() {
-    consoleLog('/auth');
+    apiReqLog('/auth', 'auth');
     const request = axios.get(`${USER_SERVER}/auth`)
         .then(res => res.data);
-    
+    apiResLog('/auth', 'auth', request);
+
     return{
         type: AUTH_USER,
         payload: request

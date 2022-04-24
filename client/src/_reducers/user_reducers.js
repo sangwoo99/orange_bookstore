@@ -8,8 +8,8 @@ export default function(state={}, action) {
         //     break;
         case LOGIN_USER:
             return { ...state, loginSuccess: action.payload }; 
-        case LOGOUT_USER:
-            return { ...state }; 
+        // case LOGOUT_USER:
+        //     return { ...state  }; 
         case AUTH_USER:
             return { ...state, userData: action.payload } 
         default: 

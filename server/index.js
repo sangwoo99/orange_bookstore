@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
-
+app.use('/api/books', require('./routes/books'));
 
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
