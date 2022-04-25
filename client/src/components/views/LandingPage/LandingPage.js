@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import axios from 'axios';
+import { BOOK_SERVER } from '../../Config';
+import { apiReqLog, apiResLog } from '../utils/loghelper';
 
 const LandingPage = () => {
+
+  useEffect(() => {
+    apiReqLog('/list', 'LandingPage');
+    axios.get(`${BOOK_SERVER}/list`)
+      .then(res => {
+        apiResLog('/list', 'LandingPage', res.data);
+      })
+  
+
+  }, [])
+
   return (
     <ImageList sx={{ width: 1000, height: 1000 }}>
       {itemData.map((item) => (

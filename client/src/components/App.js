@@ -4,6 +4,7 @@ import NavBar from './views/NavBar/NavBar.js';
 import LandingPage from './views/LandingPage/LandingPage.js';
 import LoginPage from './views/LoginPage/LoginPage.js';
 import RegisterPage from './views/RegisterPage/RegisterPage.js';
+import RegisterBook from './views/RegisterBook/RegisterBook.js';
 import Auth from '../hoc/auth';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path='/' element={Auth(LandingPage, null)}/>
             <Route path='/register' element={Auth(RegisterPage, null)}/>
             <Route path='/login' element={Auth(LoginPage, null)}/>
+            <Route path='/register/book' element={Auth(RegisterBook, null)}/>
           </Routes>
       </Suspense>
     </BrowserRouter>
