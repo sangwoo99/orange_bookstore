@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { USER_SERVER } from '../../../Config';
-import { apiReqLog, apiResLog } from '../../utils/loghelper';
+import { apiReqLog, apiResLog } from '../../utils/logHelper';
 import { useNavigate } from 'react-router-dom';
 
 // import withRouter from 'react-router-dom'
@@ -55,7 +55,6 @@ const RightMenu = (props) => {
         );
     } else {
         return (
-
             <Box sx={{ width: '100%' }}>
                 <Tabs onChange aria-label="nav tabs example">
                     <LinkTab label="로그인" href="/login" /> 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LOGIN_USER, AUTH_USER }from './types';
 import { USER_SERVER } from '../components/Config';
-import { apiReqLog, apiResLog } from '../components/views/utils/loghelper';
+import { apiReqLog, apiResLog } from '../components/views/utils/logHelper';
 
 export function loginUser(body) {
     apiReqLog('/login', 'loginUser', body);

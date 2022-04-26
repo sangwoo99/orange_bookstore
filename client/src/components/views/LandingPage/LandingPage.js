@@ -4,7 +4,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import axios from 'axios';
 import { BOOK_SERVER } from '../../Config';
-import { apiReqLog, apiResLog } from '../utils/loghelper';
+import { apiReqLog, apiResLog } from '../utils/logHelper';
 
 const LandingPage = () => {
 
@@ -14,7 +14,6 @@ const LandingPage = () => {
       .then(res => {
         apiResLog('/list', 'LandingPage', res.data);
       })
-  
 
   }, [])
 

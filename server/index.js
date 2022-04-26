@@ -23,6 +23,10 @@ app.use(cookieParser());
 app.use('/api/users', require('./routes/users'));
 app.use('/api/books', require('./routes/books'));
 
+// 노드 서버에 있는 정적 이미지를 클라이언트에 보여질 수 있게 함
+// [참고] https://expressjs.com/ko/starter/static-files.html
+app.use('/uploads', express.static('uploads'));
+
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
     app.get('*', (req, res) => {

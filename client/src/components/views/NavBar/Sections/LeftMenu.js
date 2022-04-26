@@ -7,19 +7,19 @@ const LeftMenu = () => {
 
   return (
     <Box sx={{  width: '100%'  }}>
-    <Tabs
-      value
-      onChange
-      textColor="secondary"
-      indicatorColor="secondary"
-      aria-label="secondary tabs example"
-    >
-      <Tab label="국내 도서" />
-      <Tab label="외국 도서" />
-      <Tab label="중고 도서" />
-      <Tab label="문구" />
-    </Tabs>
-  </Box>
+      <Tabs
+        value
+        onChange
+        textColor="secondary"
+        indicatorColor="secondary"
+        aria-label="secondary tabs example"
+      >
+        <Tab label="국내 도서" />
+        <Tab label="외국 도서" />
+        <Tab label="중고 도서" />
+        <Tab label="문구" />
+      </Tabs>
+    </Box>
   )
 }
 

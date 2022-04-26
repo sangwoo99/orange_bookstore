@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Book } = require('../models/Book');
+const multer = require('multer');
 
 // node.js 로그
 // [참고] https://yceffort.kr/2021/02/logging-in-nodejs
@@ -43,6 +44,29 @@ router.get('/detail/:id', (req, res) => {
         return res.status(200).json({ sucess: true, book });
     });
 });
+
+const storage = multer.diskStorage({
+    // 사진파일이 저장되는 파일 경로
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    // 저장할때 파일 이름
+    filename: function (req, file, cb) {
+        cb(null, `${Date.now()}_${file.originalname}`)
+    }
+})
+
+const upload = multer({ storage: storage }).single('file');
+
+router.post('/image', (req, res) => {
+    // 이미지를 uploads 폴더에 저장
+    upload(req, res, err => {
+        if(err) return res.status(400).json({ success: false, err });
+        return res.status(200).json({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename })
+    })
+});
+
+
 
 module.exports = router;
 // ** exports를 안하면 아래 오류가 난다.
