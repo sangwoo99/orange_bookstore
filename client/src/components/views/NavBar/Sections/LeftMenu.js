@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 const LeftMenu = () => {
 
   return (
-    <Box sx={{  width: '100%'  }}>
+    <Box sx={{ width: '100%' }}>
       <Tabs
         value
         onChange

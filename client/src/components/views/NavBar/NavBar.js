@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 
 const NavBar = () => {
   return (
-    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+    <div style={{display: 'flex'}}>
       <LeftMenu/>
       <RightMenu/>
     </div>

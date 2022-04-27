@@ -21,6 +21,7 @@ const FileUpload = (props) => {
                 if(res.data.success) {
                     apiResLog('/image', 'FileUpload', res.data);
                     setImageList([...ImageList, res.data.filePath]);
+                    props.refreshFunction([...ImageList, res.data.filePath]);
                 } else {
                     alert('파일 저장에 실패했습니다.');
                 }

@@ -39,9 +39,6 @@ const bookSchema = mongoose.Schema({
         type: Array,
         default: []
     },
-    thumbnail: {
-        type: String
-    },
     filePath: {
         type: String
     },

@@ -44,7 +44,7 @@ const RightMenu = (props) => {
     // 부모 태그로 묶으면 href 안되는 현상 해결방법
     if( user.userData && user.userData.isAuth ) {
         return (
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '10%' }}>
                 <Tabs aria-label="nav tabs example">
                     <LinkTab label="로그아웃" onClick={handleLogout} />    
                 </Tabs>

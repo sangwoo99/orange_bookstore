@@ -54,7 +54,9 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}_${file.originalname}`)
     }
-})
+
+    //최종적으로 uploads/현재날짜시간_파일이름이 들어가게됨
+});
 
 const upload = multer({ storage: storage }).single('file');
 
@@ -65,7 +67,6 @@ router.post('/image', (req, res) => {
         return res.status(200).json({ success: true, filePath: res.req.file.path, fileName: res.req.file.filename })
     })
 });
-
 
 
 module.exports = router;
