@@ -49,13 +49,13 @@ const RightMenu = (props) => {
                     <LinkTab label="로그아웃" onClick={handleLogout} />    
                 </Tabs>
                 <Tabs onChange aria-label="nav tabs">
-                    <LinkTab label="중고도서 등록" href="/register/book" />    
+                    <LinkTab label="도서 등록" href="/register/book" />    
                 </Tabs>
             </Box>
         );
     } else {
         return (
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '10%' }}>
                 <Tabs onChange aria-label="nav tabs example">
                     <LinkTab label="로그인" href="/login" /> 
                     <LinkTab label="회원 가입" href="/register" />

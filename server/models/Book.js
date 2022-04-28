@@ -48,6 +48,9 @@ const bookSchema = mongoose.Schema({
     used: { // 중고 책 여부
         type: Boolean
     },
+    foreignBook: { // 외국 도서
+        type: Boolean
+    },
     averageScore: { // 평점
         type: Number
     }

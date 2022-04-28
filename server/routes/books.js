@@ -19,7 +19,7 @@ router.post('/register', (req, res) => {
 
 // 책 목록 조회(전체, 국내도서, 외국도서, 중고도서, 문구?)
 router.get('/list', (req, res) => {
-    book.find({}, (err, books) => {
+    Book.find({}, (err, books) => {
         if(err) return res.status(400).json({ success: false, err});
         return res.status(200).json({ success: true, books });
     });
@@ -39,7 +39,7 @@ router.get('/search/:target', (req, res) => {
 
 // 책 상세 조회
 router.get('/detail/:id', (req, res) => {
-    book.findOne({ _id: req.params.id }, (err, book) => {
+    Book.findOne({ _id: req.params.id }, (err, book) => {
         if(err) return res.status(400).json({ success: false, err });
         return res.status(200).json({ sucess: true, book });
     });

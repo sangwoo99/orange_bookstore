@@ -5,6 +5,10 @@ import LandingPage from './views/LandingPage/LandingPage.js';
 import LoginPage from './views/LoginPage/LoginPage.js';
 import RegisterPage from './views/RegisterPage/RegisterPage.js';
 import RegisterBook from './views/RegisterBook/RegisterBook.js';
+import Domestic from './views/LandingPage/DetailLandingPage/Domestic.js';
+import Foreign from './views/LandingPage/DetailLandingPage/Foreign.js';
+import Used from './views/LandingPage/DetailLandingPage/Used.js';
+import Stationery from './views/LandingPage/DetailLandingPage/Stationery.js';
 import Auth from '../hoc/auth';
 
 function App() {
@@ -24,9 +28,12 @@ function App() {
             <Route path='/register' element={<RegisterPage/>}/>
             <Route path='/login' element={<LoginPage/>}/> */}
             <Route path='/' element={Auth(LandingPage, null)}/>
-            <Route path='/register' element={Auth(RegisterPage, null)}/>
-            <Route path='/login' element={Auth(LoginPage, null)}/>
-            <Route path='/register/book' element={Auth(RegisterBook, null)}/>
+            <Route path='/register' element={Auth(RegisterPage, true)}/>
+            <Route path='/login' element={Auth(LoginPage, false)}/>
+            <Route path='/domestic' element={Auth(Domestic, null)}/>
+            <Route path='/foreign' element={Auth(Foreign, null)}/>
+            <Route path='/used' element={Auth(Used, null)}/>
+            <Route path='/stationery' element={Auth(Stationery, null)}/>
           </Routes>
       </Suspense>
     </BrowserRouter>

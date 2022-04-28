@@ -18,6 +18,7 @@ const RegisterBook = () => {
   const [Description, setDescription] = useState('');
   const [Used, setUsed] = useState(false);
   const [Images, setImages] = useState([]);
+  const [ForeignBook, setForeignBook] = useState(false);
 
   const handleTitle = (e) => {
     console.log(e.currentTarget.value);
@@ -38,12 +39,12 @@ const RegisterBook = () => {
     console.log(e.currentTarget.value);
     setPrice(e.currentTarget.value);
   };
-
+  
   const handleStock = (e) => {
     console.log(e.currentTarget.value);
     setStock(e.currentTarget.value);
   };
-
+  
   // Autocomplete는 onChange에 등록한 핸들러함수 두번째 인수에 value값이 들어온다.
   const handleCategory = (e, value) => { 
     console.log(value.value);
@@ -54,10 +55,16 @@ const RegisterBook = () => {
     console.log(e.currentTarget.value);
     setDescription(e.currentTarget.value);
   };
-
+  
   const handleUsed = (e) => {
     console.log(e.currentTarget.value);
     setUsed(e.currentTarget.value);
+  };
+
+
+  const handleForeignBook = (e) => {
+    console.log(e.currentTarget.value);
+    setForeignBook(e.currentTarget.value);
   };
 
   const updateImages = (newImages) => {
@@ -82,7 +89,8 @@ const RegisterBook = () => {
       stock: Stock,
       description: Description,
       used: Used,
-      images: Images
+      images: Images,
+      foreignBook: ForeignBook
     };
 
     apiReqLog('/register', 'RegisterBook', body);
@@ -103,7 +111,9 @@ const RegisterBook = () => {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '80vh' }}>
       <form onSubmit={handleSubmit}>
         <h2 style={{ display: 'flex', justifyContent: 'center' }}>도서 등록</h2>
-        <FileUpload refreshFunction={updateImages}/>
+        <div style={{ display: 'flex'}}>
+          <FileUpload refreshFunction={updateImages}/>
+        </div>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Box
             component="form"
@@ -176,6 +186,21 @@ const RegisterBook = () => {
                 value={Description}
                 onChange={handleDescription}
                 />
+            </div>
+            <div>
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">외국도서 여부</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={ForeignBook}
+                  onChange={handleForeignBook}
+                >
+                  <FormControlLabel value="false" control={<Radio />} label="국내 도서" />
+                  <FormControlLabel value="true" control={<Radio />} label="외국 도서" />
+                </RadioGroup>
+              </FormControl>
             </div>
             <div>
               <FormControl>
