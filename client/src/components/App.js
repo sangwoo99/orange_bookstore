@@ -30,10 +30,11 @@ function App() {
             <Route path='/' element={Auth(LandingPage, null)}/>
             <Route path='/register' element={Auth(RegisterPage, true)}/>
             <Route path='/login' element={Auth(LoginPage, false)}/>
-            <Route path='/domestic' element={Auth(Domestic, null)}/>
-            <Route path='/foreign' element={Auth(Foreign, null)}/>
-            <Route path='/used' element={Auth(Used, null)}/>
-            <Route path='/stationery' element={Auth(Stationery, null)}/>
+            <Route path='/register/book' element={Auth(RegisterBook, null)}/>
+            <Route path='/list/domestic' element={Auth(Domestic, null)}/>
+            <Route path='/list/foreign' element={Auth(Foreign, null)}/>
+            <Route path='/list/used' element={Auth(Used, null)}/>
+            <Route path='/list/stationery' element={Auth(Stationery, null)}/>
           </Routes>
       </Suspense>
     </BrowserRouter>

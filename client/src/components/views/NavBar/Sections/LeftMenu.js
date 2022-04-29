@@ -22,10 +22,10 @@ const LeftMenu = () => {
         aria-label="secondary tabs example"
       >
         <Tab value="/" label="홈"/>
-        <Tab value="/domestic" label="국내 도서" />
-        <Tab value="/foreign" label="외국 도서" />
-        <Tab value="/used" label="중고 도서" />
-        <Tab value="/stationery" label="문구" />
+        <Tab value="/list/domestic" label="국내 도서" />
+        <Tab value="/list/foreign" label="외국 도서" />
+        <Tab value="/list/used" label="중고 도서" />
+        <Tab value="/list/stationery" label="문구" />
       </Tabs>
     </Box>
   )

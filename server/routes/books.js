@@ -17,7 +17,7 @@ router.post('/register', (req, res) => {
     });
 });
 
-// 책 목록 조회(전체, 국내도서, 외국도서, 중고도서, 문구?)
+// 모든 책 목록 조회(전체, 국내도서, 외국도서, 중고도서, 문구?)
 router.get('/list', (req, res) => {
     Book.find({}, (err, books) => {
         if(err) return res.status(400).json({ success: false, err});
@@ -25,12 +25,18 @@ router.get('/list', (req, res) => {
     });
 });
 
-// router.get('/list/:category', (req, res) => {
-//     book.find({}, (err, books) => {
-//         if(err) return res.status(400).json({ success: false, err});
-//         return res.status(200).json({ success: true, books });
-//     });
-// });
+// 중고책 목록 조회
+router.get('/list/detail', (req, res) => {
+    console.log('req.query', req.query); 
+    // query를 보낼 줄땐 문자열이지만 받을때 객체로 바뀜
+    Book.find(req.query, (err, books) => {
+        if(err) return res.status(400).json({ success: false, err});
+        return res.status(200).json({ success: true, books });
+    });
+});
+
+
+
 
 // 책 검색
 router.get('/search/:target', (req, res) => {
@@ -73,3 +79,10 @@ module.exports = router;
 // ** exports를 안하면 아래 오류가 난다.
 // Router.use() requires a middleware function but got a Object
 // https://codingmania.tistory.com/549
+
+// get
+// '/detail?id='12313''  => req.query.id
+// '/detail/12313'  => '/detail/:id' , req.params.id
+
+// post
+// '/detail', body = { id: 12313 } => req.body.id
