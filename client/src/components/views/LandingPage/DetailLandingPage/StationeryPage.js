@@ -1,21 +1,27 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { BOOK_SERVER } from '../../../Config';
-import { apiReqLog, apiResLog } from '../../utils/logHelper';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { requestGetAPI } from '../../utils/apiHelper';
+// import axios from 'axios';
+// import { BOOK_SERVER } from '../../../Config';
+// import { apiReqLog, apiResLog } from '../../utils/logHelper';
 
-const Domestic = () => {
+const StationeryPage = () => {
   const [Books, setBooks] = useState([]);
 
   useEffect(() => {
-    apiReqLog('/list/detail', 'Used', 'foreignBook=false');
-    axios.get(`${BOOK_SERVER}/list/detail?foreignBook=false`)
-      .then(res => {
-        apiResLog('/list/detail', 'Used', res.data);
-        if(res.data.success) {
-          setBooks(res.data.books);
-        }
-      })
+    // 문구류는 나중에 업데이트
+    // apiReqLog('/list/detail', 'Used', 'foreignBook=true');
+    // axios.get(`${BOOK_SERVER}/list/detail?foreignBook=true`)
+    //   .then(res => {
+    //     apiResLog('/list/detail', 'Used', res.data);
+    //     if(res.data.success) {
+    //       setBooks(res.data.books);
+    //     }
+    //   })
+
+    requestGetAPI('/list/detail', 'StationeryPage', 'foreignBook=true', (data) => {
+      setBooks(data.books);
+    })
   }, [])
 
   return (
@@ -44,4 +50,4 @@ const Domestic = () => {
   )
 }
 
-export default Domestic
+export default StationeryPage

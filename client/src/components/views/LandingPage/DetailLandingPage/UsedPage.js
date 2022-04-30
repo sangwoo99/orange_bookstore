@@ -1,21 +1,26 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { BOOK_SERVER } from '../../../Config';
-import { apiReqLog, apiResLog } from '../../utils/logHelper';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { requestGetAPI } from '../../utils/apiHelper';
+// import axios from 'axios';
+// import { BOOK_SERVER } from '../../../Config';
+// import { apiReqLog, apiResLog } from '../../utils/logHelper';
 
-const Used = () => {
+const UsedPage = () => {
   const [Books, setBooks] = useState([]);
 
   useEffect(() => {
-    apiReqLog('/list/detail', 'Used', 'used=true');
-    axios.get(`${BOOK_SERVER}/list/detail?used=true`)
-      .then(res => {
-        apiResLog('/list/detail', 'Used', res.data);
-        if(res.data.success) {
-          setBooks(res.data.books);
-        }
-      })
+    // apiReqLog('/list/detail', 'Used', 'used=true');
+    // axios.get(`${BOOK_SERVER}/list/detail?used=true`)
+    //   .then(res => {
+    //     apiResLog('/list/detail', 'Used', res.data);
+    //     if(res.data.success) {
+    //       setBooks(res.data.books);
+    //     }
+    //   })
+
+    requestGetAPI('/list/detail', 'UsedPage', 'used=true', (data) => {
+      setBooks(data.books);
+    })
   }, [])
 
   return (
@@ -44,7 +49,7 @@ const Used = () => {
   )
 }
 
-export default Used
+export default UsedPage
 
 // 고민1(추후에도 전부 가져오진 않을듯)
 // 처음에 전체 목록 가져온걸 리덕스에 등록하고

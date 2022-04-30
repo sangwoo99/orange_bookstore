@@ -1,21 +1,26 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { BOOK_SERVER } from '../../../Config';
-import { apiReqLog, apiResLog } from '../../utils/logHelper';
 import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { requestGetAPI } from '../../utils/apiHelper';
+// import axios from 'axios';
+// import { BOOK_SERVER } from '../../../Config';
+// import { apiReqLog, apiResLog } from '../../utils/logHelper';
 
-const Foreign = () => {
+const DomesticPage = () => {
   const [Books, setBooks] = useState([]);
 
   useEffect(() => {
-    apiReqLog('/list/detail', 'Used', 'foreignBook=true');
-    axios.get(`${BOOK_SERVER}/list/detail?foreignBook=true`)
-      .then(res => {
-        apiResLog('/list/detail', 'Used', res.data);
-        if(res.data.success) {
-          setBooks(res.data.books);
-        }
-      })
+    // apiReqLog('/list/detail', 'DomesticPage', 'foreignBook=false');
+    // axios.get(`${BOOK_SERVER}/list/detail?foreignBook=false`)
+    //   .then(res => {
+    //     apiResLog('/list/detail', 'DomesticPage', res.data);
+    //     if(res.data.success) {
+    //       setBooks(res.data.books);
+    //     }
+    //   })
+
+    requestGetAPI('/list/detail', 'DomesticPage', 'foreignBook=false', (data) => {
+      setBooks(data.books);
+    })
   }, [])
 
   return (
@@ -44,4 +49,4 @@ const Foreign = () => {
   )
 }
 
-export default Foreign
+export default DomesticPage

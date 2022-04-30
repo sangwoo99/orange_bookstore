@@ -1,8 +1,8 @@
-export const apiReqLog = (apiPath, where, body) => {
-    console.log(`[API-REQ][${where}][${apiPath}] body: `, body);
+export const apiReqLog = (apiPath, where, input) => {
+    console.log(`[API-REQ][${where}][${apiPath}] input: `, input);
 };
 
-export const apiResLog = (apiPath, where, apiResponse) => {
-    console.log(`[API-RES][${where}][${apiPath}] apiResponse: `, apiResponse);
+export const apiResLog = (apiPath, where, result) => {
+    console.log(`[API-RES][${where}][${apiPath}] result: `, result);
 };
 

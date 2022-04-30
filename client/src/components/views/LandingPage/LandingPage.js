@@ -1,87 +1,47 @@
 import React, { useEffect, useState } from 'react'
 import {ImageList, ImageListItem, ImageListItemBar} from '@mui/material';
-import axios from 'axios';
-import { BOOK_SERVER } from '../../Config';
-import { apiReqLog, apiResLog } from '../utils/logHelper';
+import { requestGetAPI } from '../utils/apiHelper';
+import BookList from '../utils/BookList';
+// import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+// import { BOOK_SERVER } from '../../Config';
+// import { apiReqLog, apiResLog } from '../utils/logHelper';
 
 const LandingPage = () => {
+  // const navigator = useNavigate();
   const [Books, setBooks] = useState([]);
 
   useEffect(() => {
-    apiReqLog('/list', 'LandingPage');
-    axios.get(`${BOOK_SERVER}/list`)
-      .then(res => {
-        apiResLog('/list', 'LandingPage', res.data);
-        setBooks(res.data.books);
-      })
+    // apiReqLog('/list', 'LandingPage');
+    // axios.get(`${BOOK_SERVER}/list`)
+    //   .then(res => {
+    //     apiResLog('/list', 'LandingPage', res.data);
+    //     setBooks(res.data.books);
+    //   })
+
+    // api 로그, 호출 실패시 alert이 계속 중복되어 공통함수로 만듬
+    // (url, component, params, callback)
+    requestGetAPI('/list', 'LandingPage', null, (data) => {
+      setBooks(data.books);
+    })
 
   }, []);
 
+  const handleMoveDetail = (e) => {
+    let value = e.currentTarget.value;
+    console.log(value);
+    navigator(`/detail/${value}`);
+  };
+
+  // 책 리스트가 반복되므로 컴포넌트화 함
   return (
     <div >
       <h3>컴퓨터 서적</h3>
-      <ImageList sx={{ width: 1500, height: 350 }} style={{ display: 'flex'}}>
-        {Books.map((book) => (
-          book.category === 'computerScience' && (
-            <ImageListItem key={book.images[0]}>
-              <img
-                style={{width: 300, height: 150}}
-                src={`http://localhost:5000/${book.images[0]}`}
-                // srcSet={`http://localhost:5000/${book.images[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                alt={book.title}
-                loading="lazy"
-              />
-              <ImageListItemBar
-                title={book.title}
-                subtitle={<span>written by: {book.writer}</span>}
-                position="below"
-              />
-            </ImageListItem>
-          )
-        ))}
-      </ImageList>
+        <BookList books={Books} category={'computerScience'}/>
       <h3>수험서 서적</h3>
-      <ImageList sx={{ width: 1500, height: 350 }} style={{ display: 'flex'}}>
-        {Books.map((book) => (
-            book.category === 'testBook' && (
-              <ImageListItem key={book.images[0]}>
-                <img
-                  style={{width: 300, height: 150}}
-                  src={`http://localhost:5000/${book.images[0]}`}
-                  // srcSet={`http://localhost:5000/${book.images[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={book.title}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  title={book.title}
-                  subtitle={<span>written by: {book.writer}</span>}
-                  position="below"
-                />
-              </ImageListItem>
-            )
-        ))}
-      </ImageList>
+        <BookList books={Books} category={'testBook'}/>
       <h3>문학 서적</h3>
-      <ImageList sx={{ width: 1500, height: 350 }} style={{ display: 'flex'}}>
-        {Books.map((book) => (
-            book.category === 'literature' && (
-              <ImageListItem key={book.images[0]}>
-                <img
-                  style={{width: 300, height: 150}}
-                  src={`http://localhost:5000/${book.images[0]}`}
-                  // srcSet={`http://localhost:5000/${book.images[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={book.title}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  title={book.title}
-                  subtitle={<span>written by: {book.writer}</span>}
-                  position="below"
-                />
-              </ImageListItem>
-            )
-        ))}
-      </ImageList>
+        <BookList books={Books} category={'literature'}/>
     </div>
   )
 }

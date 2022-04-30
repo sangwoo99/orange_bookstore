@@ -29,26 +29,25 @@ router.get('/list', (req, res) => {
 router.get('/list/detail', (req, res) => {
     console.log('req.query', req.query); 
     // query를 보낼 줄땐 문자열이지만 받을때 객체로 바뀜
+
     Book.find(req.query, (err, books) => {
         if(err) return res.status(400).json({ success: false, err});
         return res.status(200).json({ success: true, books });
     });
 });
 
-
-
+// 책 상세 조회
+router.get('/detail', (req, res) => {
+    console.log('req.query', req.query); 
+    Book.findOne(req.query, (err, bookInfo) => {
+        if(err) return res.status(400).json({ success: false, err });
+        return res.status(200).json({ success: true, bookInfo });
+    });
+});
 
 // 책 검색
 router.get('/search/:target', (req, res) => {
 
-});
-
-// 책 상세 조회
-router.get('/detail/:id', (req, res) => {
-    Book.findOne({ _id: req.params.id }, (err, book) => {
-        if(err) return res.status(400).json({ success: false, err });
-        return res.status(200).json({ sucess: true, book });
-    });
 });
 
 const storage = multer.diskStorage({

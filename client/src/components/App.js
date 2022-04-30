@@ -5,10 +5,11 @@ import LandingPage from './views/LandingPage/LandingPage.js';
 import LoginPage from './views/LoginPage/LoginPage.js';
 import RegisterPage from './views/RegisterPage/RegisterPage.js';
 import RegisterBook from './views/RegisterBook/RegisterBook.js';
-import Domestic from './views/LandingPage/DetailLandingPage/Domestic.js';
-import Foreign from './views/LandingPage/DetailLandingPage/Foreign.js';
-import Used from './views/LandingPage/DetailLandingPage/Used.js';
-import Stationery from './views/LandingPage/DetailLandingPage/Stationery.js';
+import DomesticPage from './views/LandingPage/DetailLandingPage/DomesticPage.js';
+import ForeignPage from './views/LandingPage/DetailLandingPage/ForeignPage.js';
+import UsedPage from './views/LandingPage/DetailLandingPage/UsedPage.js';
+import StationeryPage from './views/LandingPage/DetailLandingPage/StationeryPage.js';
+import DetailPage from './views/DetailPage/DetailPage.js';
 import Auth from '../hoc/auth';
 
 function App() {
@@ -31,10 +32,11 @@ function App() {
             <Route path='/register' element={Auth(RegisterPage, true)}/>
             <Route path='/login' element={Auth(LoginPage, false)}/>
             <Route path='/register/book' element={Auth(RegisterBook, null)}/>
-            <Route path='/list/domestic' element={Auth(Domestic, null)}/>
-            <Route path='/list/foreign' element={Auth(Foreign, null)}/>
-            <Route path='/list/used' element={Auth(Used, null)}/>
-            <Route path='/list/stationery' element={Auth(Stationery, null)}/>
+            <Route path='/list/domestic' element={Auth(DomesticPage, null)}/>
+            <Route path='/list/foreign' element={Auth(ForeignPage, null)}/>
+            <Route path='/list/used' element={Auth(UsedPage, null)}/>
+            <Route path='/list/stationery' element={Auth(StationeryPage, null)}/>
+            <Route path='/detail/:id' element={Auth(DetailPage, null)}/>
           </Routes>
       </Suspense>
     </BrowserRouter>
