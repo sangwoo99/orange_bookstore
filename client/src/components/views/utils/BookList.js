@@ -9,7 +9,7 @@ const BookList = (props) => {
                 <ImageListItem key={book.images[0]}>
                   <a href={`/detail/${book._id}`}>
                     <img
-                      style={{width: 300, height: 150}}
+                      style={{width: 300, height: 350}}
                       src={`http://localhost:5000/${book.images[0]}`}
                       // srcSet={`http://localhost:5000/${book.images[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
                       alt={book.title}
