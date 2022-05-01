@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import { requestGetAPI } from '../../utils/apiHelper';
+import BookList from '../../utils/BookList';
+// import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 // import axios from 'axios';
 // import { BOOK_SERVER } from '../../../Config';
 // import { apiReqLog, apiResLog } from '../../utils/logHelper';
@@ -26,7 +27,8 @@ const StationeryPage = () => {
 
   return (
     <div>
-      <ImageList sx={{ width: 1500, height: 350 }} style={{ display: 'flex'}}>
+      <BookList books={Books}/>
+      {/* <ImageList sx={{ width: 1500, height: 350 }} style={{ display: 'flex'}}>
       { 
         Books.map((book) => (
           <ImageListItem key={book.images[0]}>
@@ -45,7 +47,7 @@ const StationeryPage = () => {
           </ImageListItem>
         ))
       }
-      </ImageList>
+      </ImageList> */}
     </div>
   )
 }

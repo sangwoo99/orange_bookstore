@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { requestGetAPI } from '../utils/apiHelper';
+import { Box, Paper, Stack, Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 const DetailPage = (props) => {
   const [BookInfo, setBookInfo] = useState({});
@@ -19,25 +29,36 @@ const DetailPage = (props) => {
   // 해결책: && 연산자의 단축평가를 이용해서 값이 존재할때 렌더링하도록 한다.
   // [참고] https://moonformeli.tistory.com/3
   return (
-    <>
-      <div>DetailPage</div>
-      <div>
-        <div>책이름: {BookInfo.title}</div>
-        <div>책 내용: {BookInfo.description}</div>
-        <div>저자: {BookInfo.writer}</div>
-        <div>출판사: {BookInfo.publisher}</div>
-        <div>가격: {BookInfo.price}</div>
-        <div>
-          <img
-            style={{width: 300, height: 150}}
-            src={`http://localhost:5000/${BookInfo.images && BookInfo.images[0]}`}
-            // srcSet={`http://localhost:5000/${book.images[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            alt={BookInfo.images && BookInfo.images[0]}
-            loading="lazy"
-          />
-        </div>
-       </div>
-    </>
+    <div style={{ width: '80%', display: 'flex', justifyContent: 'center' }}>
+       <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Item>
+              <img
+                style={{width: 400, height: 300}}
+                src={`http://localhost:5000/${BookInfo.images && BookInfo.images[0]}`}
+                // srcSet={`http://localhost:5000/${book.images[0]}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={BookInfo.images && BookInfo.images[0]}
+                loading="lazy"
+              />
+            </Item>
+          </Grid>
+          <Grid item xs={6}>
+            <Item>
+              <Box sx={{ width: '100%' }}>
+                  <Stack spacing={2}>
+                    <Item>책이름: {BookInfo.title}</Item>
+                    <Item>책 내용: {BookInfo.description}</Item>
+                    <Item>저자: {BookInfo.writer}</Item>
+                    <Item>출판사: {BookInfo.publisher}</Item>
+                    <Item>가격: {BookInfo.price}</Item>
+                  </Stack>
+                </Box>
+            </Item>
+          </Grid>
+        </Grid>
+      </Box>  
+    </div>
   )
 }
 
