@@ -5,9 +5,11 @@ import { requestGetAPI } from '../utils/apiHelper';
 import BookList from '../utils/BookList';
 
 const LandingPage = () => {
+  // const [Books, setBooks] = useState([]);
   const [ComputerScienceList, setComputerScienceList] = useState([]);
   const [TestBookList, setTestBookList] = useState([]);
   const [LiteratureList, setLiteratureList] = useState([]);
+  const [ScienceList, setScienceList] = useState([]);
 
   useEffect(() => {
     // apiReqLog('/list', 'LandingPage');
@@ -20,30 +22,41 @@ const LandingPage = () => {
     // api 로그, 호출 실패시 alert이 계속 중복되어 공통함수로 만듬
     // (url, component, params, callback)
     requestGetAPI('/list', 'LandingPage', null, (data) => {
-      // let newObject = {};
+      // let newArr = [];
       // data.books.forEach((book) => {
       //   if( book.category === 'computerScience' ) {
       //     // 현상: useState에 object를 바로 넣으면 인식 못함
       //     // 원인: object의 참조값을 기준으로 비교하기 때문에
       //     // 해결: useState에 object를 변경할땐 새 object를 만들어 넣는다.
       //     // [참고] https://lovemewithoutall.github.io/it/react-usestate-object/
-      //     newObject = { ...newObject, computerScience: book };
+      //     let computerScienceList = [ book ];
+      //     setComputerScienceList(computerScienceList);
           
       //   } else if( book.category === 'testBook' ) {
-      //     newObject = { ...newObject, testBook: book };
-          
+      //     let TestBookList = [ book ];
+      //     setTestBookList(TestBookList);
+
       //   } else if( book.category === 'literature' ) {
-      //     newObject = { ...newObject, literature: book };
+      //     let literatureList = [ book ];
+      //     setLiteratureList(literatureList);
+
+      //   } else if( book.category === 'science' ) {
+      //     let scienceList = [ book ];
+      //     setScienceList(scienceList);
+
       //   }
         
       //   console.log('category', book.category);
-      //   console.log('newObject', newObject);
+      //   console.log('newObject', newArr);
 
       // });
+
+      // setBooks(newArr);
 
       let noComputerScienceList = [];
       let noTestBookList = [];
       let noLiteratureList = [];
+      let noScienceList = [];
 
       let computerScienceList = data.books.filter((book) => {
         // return book.category === 'computerScience'
@@ -71,10 +84,20 @@ const LandingPage = () => {
           noLiteratureList.push(book); // 문학 카테고리가 아닌 책들로 다음 검색대상을 줄임
         }
       })
+
+      let scienceList = noLiteratureList.filter((book) => {
+        // return book.category === 'literature'
+        if( book.category === 'science' ) {
+          return book;
+        } else {
+          noScienceList.push(book); // 문학 카테고리가 아닌 책들로 다음 검색대상을 줄임
+        }
+      })
       
       setComputerScienceList(computerScienceList);
       setTestBookList(TestBookList);
       setLiteratureList(literatureList);
+      setScienceList(scienceList);
 
       console.log('useEffect 안의 ComputerScienceList', ComputerScienceList); 
       // useEffect 내에선 useState가 바로 안바뀌고 useEffect밖에서 바뀜
@@ -118,8 +141,8 @@ const LandingPage = () => {
           </Grid>
           <Grid item xs={6}>
             <Item>
-              <h3>문학 서적</h3>
-              <BookList books={LiteratureList}/>
+              <h3>과학 서적</h3>
+              <BookList books={ScienceList}/>
             </Item>
           </Grid>
         </Grid>

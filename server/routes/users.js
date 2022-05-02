@@ -69,4 +69,13 @@ router.get('/logout', auth, (req, res) => {
 
 });
 
+router.post('/addInCart', (req, res) => {
+    // 먼저 User Collection에서 해당 정보를 가져오기
+    // 가져온 정보에서 카트에다 넣으려는 상품이 이미 들어 있는지 확인
+
+    const user = new User(req.body);
+
+    user.findOneAndUpdate(); // 해당 유저를 찾아 
+});
+
 module.exports = router;
