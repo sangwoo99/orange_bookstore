@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { requestGetAPI } from '../utils/apiHelper';
-import { Box, Paper, Stack, Grid } from '@mui/material';
+import { requestGetAPI, requestPostAPI } from '../utils/apiHelper';
+import { Box, Paper, Stack, Grid, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -23,6 +23,16 @@ const DetailPage = (props) => {
       setBookInfo(data.bookInfo);
     })
   }, [])
+
+  let addBookInCart = () => {
+    let body = {
+      book_id: BookInfo._id
+    };
+
+    requestPostAPI('/addInCart', 'DetailPage', body, () => {
+
+    });
+  }
   
   // 문제 현상: 배열은 이상하게 한 박자 느려서 처음에 undefined 뜨고 그다음에 값이 들어온다.
   // 원인: 비동기 호출이전에 컴포넌트가 렌더링이 되서
@@ -52,6 +62,10 @@ const DetailPage = (props) => {
                     <Item>저자: {BookInfo.writer}</Item>
                     <Item>출판사: {BookInfo.publisher}</Item>
                     <Item>가격: {BookInfo.price}</Item>
+                    <div>
+                      <Button variant="contained" onClick={addBookInCart}>장바구니 담기</Button>
+                      <Button variant="contained">바로 구매</Button>
+                    </div>
                   </Stack>
                 </Box>
             </Item>

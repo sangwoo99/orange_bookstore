@@ -69,13 +69,52 @@ router.get('/logout', auth, (req, res) => {
 
 });
 
-router.post('/addInCart', (req, res) => {
-    // 먼저 User Collection에서 해당 정보를 가져오기
-    // 가져온 정보에서 카트에다 넣으려는 상품이 이미 들어 있는지 확인
+// auth를 이용하여 인증 후 req.user와 req.token정보를 얻어온다.
+router.post('/addInCart', auth, (req, res) => {
+    // 1. User Collection에서 해당 정보를 가져오기 
+    // 이유 => 기존에 있는 카트 데이터에 새로 추가한 데이터를 붙여야 하므로 
+    User.findOne({ _id: req.user._id})
+        .then((err, userInfo) => {
+            if(err) console.log('err:', err);
+            // 2. 유저정보에서 카트정보를 가져와서 카트에 넣으려는 상품이 이미 들어 있는지 확인
+            let duplicate = false;
+            userInfo.cart.forEach((book) => {
+                duplicate = book._id === req.body.book_id ? true : false;
+            })
 
-    const user = new User(req.body);
+            if(duplicate) {
+                // a. 상품이 이미 있을 때 => 해당 상품의 갯수만 업데이트
+                User.findOneAndUpdate(
+                    { _id: req.user._id },
+                    { $inc: { 'cart.$.stock': 1 } }, // 값을 증가시킨다
+                    { new: true }, // 업데이트된 정보를 다시 받아옴
+                    (err, userInfo) => {
+                        if(err) return res.status(400).join({ success: false, err })
+                        res.status(200).send(userInfo.cart)
+                    }
+                )
+            } else {
+                // b. 상품이 있지 않을 때 => 해당 상품을 추가
+                User.findOneAndUpdate(
+                    { _id: req.user._id },
+                    {
+                        $push: { // 해당값을 넣는다.
+                            cart: {
+                                id: req.body.book_id,
+                                stock: 1,
+                                date: Date.now()
+                            }
+                        }
+                    },
+                    { new: true },
+                    (err, userInfo) => {
+                        if(err) return res.status(400).json({ success: false, err })
+                        res.status(200).send(userInfo.cart)
+                    }
+                )
+            }
+        })
 
-    user.findOneAndUpdate(); // 해당 유저를 찾아 
 });
 
 module.exports = router;
