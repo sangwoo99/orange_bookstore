@@ -71,50 +71,53 @@ router.get('/logout', auth, (req, res) => {
 
 // auth를 이용하여 인증 후 req.user와 req.token정보를 얻어온다.
 router.post('/addInCart', auth, (req, res) => {
+    console.log('user._id: ', req.user._id);
     // 1. User Collection에서 해당 정보를 가져오기 
     // 이유 => 기존에 있는 카트 데이터에 새로 추가한 데이터를 붙여야 하므로 
-    User.findOne({ _id: req.user._id})
-        .then((err, userInfo) => {
-            if(err) console.log('err:', err);
-            // 2. 유저정보에서 카트정보를 가져와서 카트에 넣으려는 상품이 이미 들어 있는지 확인
-            let duplicate = false;
-            userInfo.cart.forEach((book) => {
-                duplicate = book._id === req.body.book_id ? true : false;
-            })
+    User.findOne({ _id: req.user._id}, (err, userInfo) => {  // 프로미스 .then()을 써서 cb함수를 넣는게 아니라 바로 findOne안에 콜백함수를 넣는다.
+        // 첫번째 인수가 err이고 두번째 인수가 결과
+        if(err) return res.status(400).join({ success: false, err})
+        // 2. 유저정보에서 카트정보를 가져와서 카트에 넣으려는 상품이 이미 들어 있는지 확인
+        let duplicate = false;
 
-            if(duplicate) {
-                // a. 상품이 이미 있을 때 => 해당 상품의 갯수만 업데이트
-                User.findOneAndUpdate(
-                    { _id: req.user._id },
-                    { $inc: { 'cart.$.stock': 1 } }, // 값을 증가시킨다
-                    { new: true }, // 업데이트된 정보를 다시 받아옴
-                    (err, userInfo) => {
-                        if(err) return res.status(400).join({ success: false, err })
-                        res.status(200).send(userInfo.cart)
-                    }
-                )
-            } else {
-                // b. 상품이 있지 않을 때 => 해당 상품을 추가
-                User.findOneAndUpdate(
-                    { _id: req.user._id },
-                    {
-                        $push: { // 해당값을 넣는다.
-                            cart: {
-                                id: req.body.book_id,
-                                stock: 1,
-                                date: Date.now()
-                            }
-                        }
-                    },
-                    { new: true },
-                    (err, userInfo) => {
-                        if(err) return res.status(400).json({ success: false, err })
-                        res.status(200).send(userInfo.cart)
-                    }
-                )
-            }
+        // 배열메서드 => 배열 미존재, 빈 배열일 떄 undefined 에러 뜸 => 배열 미존재, 빈배열 방어 필요
+        userInfo.cart && userInfo.cart > 0 && userInfo.cart.forEach((book) => {
+            duplicate = book._id === req.body.book_id ? true : false;
         })
 
-});
+        if(duplicate) {
+            // a. 상품이 이미 있을 때 => 해당 상품의 갯수만 업데이트
+            User.findOneAndUpdate(
+                { _id: req.user._id, 'cart.id': req.body.book_id },
+                { $inc: { 'cart.$.stock': 1 } }, // 값을 증가시킨다
+                { new: true }, // 업데이트된 정보를 다시 받아옴
+                (err, userInfo) => {
+                    if(err) return res.status(400).join({ success: false, err })
+                    res.status(200).send(userInfo.cart)
+                }
+            )
+        } else {
+            // b. 상품이 있지 않을 때 => 해당 상품을 추가
+            User.findOneAndUpdate(
+                { _id: req.user._id },
+                {
+                    $push: { // 해당값을 넣는다.
+                        cart: {
+                            id: req.body.book_id,
+                            stock: 1,
+                            date: Date.now()
+                        }
+                    }
+                },
+                { new: true },
+                (err, userInfo) => {
+                    if(err) return res.status(400).json({ success: false, err })
+                    res.status(200).send(userInfo.cart)
+                }
+            )
+        }
+    });
+
+})
 
 module.exports = router;

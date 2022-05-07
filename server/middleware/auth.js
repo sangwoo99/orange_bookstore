@@ -8,7 +8,7 @@ let auth = (req, res, next) => {
     console.log('token', token);
     // 인증
     // 토큰을 복호화 후 다시 만들어진 유저 아이디로 해당 유저 정보를 찾는다.
-    User.findByToken(token, (user, err) => {
+    User.findByToken(token, (err, user) => {
         if(err) throw err;
         // 해당 유저를 찾지 못함 => 인증 실패
         if(!user) return res.json({ isAuth: false, error: true })

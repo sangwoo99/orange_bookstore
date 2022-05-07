@@ -20,7 +20,7 @@ const StationeryPage = () => {
     //     }
     //   })
 
-    requestGetAPI('/list/detail', 'StationeryPage', 'foreignBook=true', (data) => {
+    requestGetAPI('/api/books/list/detail', 'StationeryPage', 'foreignBook=true', (data) => {
       setBooks(data.books);
     })
   }, [])

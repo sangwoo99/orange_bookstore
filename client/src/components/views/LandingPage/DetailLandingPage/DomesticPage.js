@@ -19,7 +19,7 @@ const DomesticPage = () => {
     //     }
     //   })
 
-    requestGetAPI('/list/detail', 'DomesticPage', 'foreignBook=false', (data) => {
+    requestGetAPI('/api/books/list/detail', 'DomesticPage', 'foreignBook=false', (data) => {
       setBooks(data.books);
     })
   }, [])

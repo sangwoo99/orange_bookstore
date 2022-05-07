@@ -12,7 +12,7 @@ export const requestGetAPI = (url, component, queryString, callback) => {
     // 그냥 객체가 아닌 queryString으로 바로 받자
     queryString = queryString || '';
     apiReqLog(url, component, queryString);
-    axios.get(`${BOOK_SERVER}${url}?${queryString}`)
+    axios.get(`${url}?${queryString}`)
         .then(res => {
             apiResLog(url, component, res.data);
             if(res.data.success) {
@@ -25,7 +25,7 @@ export const requestGetAPI = (url, component, queryString, callback) => {
 
 export const requestPostAPI = (url, component, body, callback) => {
     apiReqLog(url, component, body);
-    axios.post(`${BOOK_SERVER}${url}`, body)
+    axios.post(`${url}`, body)
         .then(res => {
             apiResLog(url, component, body);
             if(res.data.success) {

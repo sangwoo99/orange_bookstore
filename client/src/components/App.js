@@ -37,6 +37,7 @@ function App() {
             <Route path='/list/used' element={Auth(UsedPage, null)}/>
             <Route path='/list/stationery' element={Auth(StationeryPage, null)}/>
             <Route path='/detail/:id' element={Auth(DetailPage, null)}/>
+            {/* <Route path='/cart' element={Auth(DetailPage, null)}/> */}
           </Routes>
       </Suspense>
     </BrowserRouter>

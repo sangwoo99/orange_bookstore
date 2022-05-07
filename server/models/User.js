@@ -87,7 +87,7 @@ userSchema.statics.findByToken = function(token, cb) {
     // **JsonWebTokenError: jwt must be provided 는 인수 token이 undefined나 null 일때 나타남
     jwt.verify(token, 'secretToken', (err, decoded) => { // **콜백함수의 파라미터의 첫번째는 err여야 한다.
         console.log('decoded: ', decoded);
-        user.findOne({'_id': decoded, 'token': token }, (user, err) => {
+        user.findOne({'_id': decoded, 'token': token }, (err, user) => {
             if(err) return cb(err);
             cb(null, user)
         })

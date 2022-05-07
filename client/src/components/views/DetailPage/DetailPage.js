@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { requestGetAPI, requestPostAPI } from '../utils/apiHelper';
 import { Box, Paper, Stack, Grid, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -14,24 +14,29 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const DetailPage = (props) => {
   const [BookInfo, setBookInfo] = useState({});
+  const navigator = useNavigate();
   // let id = props.match.params.id; // react-router-dom v6라서 안되는건가?
   let { id } = useParams(); // hooks를 이용해서 params을 가져오는 방법
   
   useEffect(() => {
     // (url, component, params, callback)
-    requestGetAPI('/detail', 'DetailPage', `_id=${id}`, (data) => {
+    requestGetAPI('/api/books/detail', 'DetailPage', `_id=${id}`, (data) => {
       setBookInfo(data.bookInfo);
     })
   }, [])
 
-  let addBookInCart = () => {
+  let moveCartPage = () => {
     let body = {
       book_id: BookInfo._id
     };
 
-    requestPostAPI('/addInCart', 'DetailPage', body, () => {
+    requestPostAPI('/api/users/addInCart', 'DetailPage', body, (data) => {
+      console.log('data: ', data);
+      if(data) {
 
+      }
     });
+    // navigator('/cart');
   }
   
   // 문제 현상: 배열은 이상하게 한 박자 느려서 처음에 undefined 뜨고 그다음에 값이 들어온다.
@@ -63,7 +68,7 @@ const DetailPage = (props) => {
                     <Item>출판사: {BookInfo.publisher}</Item>
                     <Item>가격: {BookInfo.price}</Item>
                     <div>
-                      <Button variant="contained" onClick={addBookInCart}>장바구니 담기</Button>
+                      <Button variant="contained" onClick={moveCartPage}>장바구니 담기</Button>
                       <Button variant="contained">바로 구매</Button>
                     </div>
                   </Stack>

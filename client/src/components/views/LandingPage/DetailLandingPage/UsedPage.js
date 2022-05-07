@@ -19,7 +19,7 @@ const UsedPage = () => {
     //     }
     //   })
 
-    requestGetAPI('/list/detail', 'UsedPage', 'used=true', (data) => {
+    requestGetAPI('/api/books/list/detail', 'UsedPage', 'used=true', (data) => {
       setBooks(data.books);
     })
   }, [])

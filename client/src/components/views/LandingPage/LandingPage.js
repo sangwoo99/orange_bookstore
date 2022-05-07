@@ -21,7 +21,7 @@ const LandingPage = () => {
 
     // api 로그, 호출 실패시 alert이 계속 중복되어 공통함수로 만듬
     // (url, component, params, callback)
-    requestGetAPI('/list', 'LandingPage', null, (data) => {
+    requestGetAPI('/api/books/list', 'LandingPage', null, (data) => {
       // let newArr = [];
       // data.books.forEach((book) => {
       //   if( book.category === 'computerScience' ) {
