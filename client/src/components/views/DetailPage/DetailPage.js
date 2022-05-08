@@ -30,13 +30,9 @@ const DetailPage = (props) => {
       book_id: BookInfo._id
     };
 
-    requestPostAPI('/api/users/addInCart', 'DetailPage', body, (data) => {
-      console.log('data: ', data);
-      if(data) {
-
-      }
+    requestPostAPI('/api/users/addInCart', 'DetailPage', body, () => {
+      navigator('/cart');
     });
-    // navigator('/cart');
   }
   
   // 문제 현상: 배열은 이상하게 한 박자 느려서 처음에 undefined 뜨고 그다음에 값이 들어온다.

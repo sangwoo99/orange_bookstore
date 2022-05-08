@@ -32,6 +32,7 @@ const RightMenu = (props) => {
     function LinkTab(props) {
         return (
             <Tab
+            value='/'
             component="a"
             onClick={(event) => {
                 event.preventDefault();

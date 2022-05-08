@@ -5,7 +5,7 @@ let auth = (req, res, next) => {
     // **cookie-parser 안 이용하면 undefined나옴
     // **proxy를 쓰지 않으면 쿠키가 아니라 Header쪽에 토큰을 넣어야함
     let token = req.cookies.x_auth; 
-    console.log('token', token);
+    console.log('auth_token: ', token);
     // 인증
     // 토큰을 복호화 후 다시 만들어진 유저 아이디로 해당 유저 정보를 찾는다.
     User.findByToken(token, (err, user) => {

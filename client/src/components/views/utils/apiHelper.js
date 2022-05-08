@@ -10,9 +10,9 @@ export const requestGetAPI = (url, component, queryString, callback) => {
     // params = `${key}=${value}`;
 
     // 그냥 객체가 아닌 queryString으로 바로 받자
-    queryString = queryString || '';
+    queryString = queryString ? ( '?' + queryString) : '';
     apiReqLog(url, component, queryString);
-    axios.get(`${url}?${queryString}`)
+    axios.get(`${url}${queryString}`)
         .then(res => {
             apiResLog(url, component, res.data);
             if(res.data.success) {
@@ -27,7 +27,7 @@ export const requestPostAPI = (url, component, body, callback) => {
     apiReqLog(url, component, body);
     axios.post(`${url}`, body)
         .then(res => {
-            apiResLog(url, component, body);
+            apiResLog(url, component, res.data);
             if(res.data.success) {
                 callback();
             } else {

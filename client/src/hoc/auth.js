@@ -23,6 +23,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
                 //     props.history.push('/');
                 // } else { // 어드민 계정
                     if(option === false) { // 로그인 안한 사람만 들어올 수 있는 경우
+                        alert('로그인을 해야 이용가능 합니다.');
                         props.history.push('/');
                     }
                 // }

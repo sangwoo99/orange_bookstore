@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('../models/User');
+const { Book } = require('../models/Book');
 const { auth }  = require('../middleware/auth');
 
 // 회원 가입
@@ -81,19 +82,19 @@ router.post('/addInCart', auth, (req, res) => {
         let duplicate = false;
 
         // 배열메서드 => 배열 미존재, 빈 배열일 떄 undefined 에러 뜸 => 배열 미존재, 빈배열 방어 필요
-        userInfo.cart && userInfo.cart > 0 && userInfo.cart.forEach((book) => {
-            duplicate = book._id === req.body.book_id ? true : false;
+        userInfo.cart && userInfo.cart.length > 0 && userInfo.cart.forEach((book) => {
+            duplicate = book.id === req.body.book_id ? true : false;
         })
 
         if(duplicate) {
             // a. 상품이 이미 있을 때 => 해당 상품의 갯수만 업데이트
             User.findOneAndUpdate(
                 { _id: req.user._id, 'cart.id': req.body.book_id },
-                { $inc: { 'cart.$.stock': 1 } }, // 값을 증가시킨다
+                { $inc: { 'cart.$.count': 1 } }, // 값을 증가시킨다
                 { new: true }, // 업데이트된 정보를 다시 받아옴
                 (err, userInfo) => {
-                    if(err) return res.status(400).join({ success: false, err })
-                    res.status(200).send(userInfo.cart)
+                    if(err) return res.status(400).json({ success: false, err })
+                    res.status(200).json({ success: true, cart: userInfo.cart})
                 }
             )
         } else {
@@ -104,15 +105,15 @@ router.post('/addInCart', auth, (req, res) => {
                     $push: { // 해당값을 넣는다.
                         cart: {
                             id: req.body.book_id,
-                            stock: 1,
+                            count: 1,
                             date: Date.now()
                         }
                     }
                 },
-                { new: true },
+                { new: true }, // 변화된 새로운 결과를 출력하니까 리덕스에 담아 이용하기 유용
                 (err, userInfo) => {
                     if(err) return res.status(400).json({ success: false, err })
-                    res.status(200).send(userInfo.cart)
+                    res.status(200).json({ success: true, cart: userInfo.cart})
                 }
             )
         }
@@ -120,4 +121,29 @@ router.post('/addInCart', auth, (req, res) => {
 
 })
 
+router.get('/getCart', auth, (req, res) => {
+    console.log('/showCart')
+
+    // 차후에 $lookup 조인으로도 해보기
+    User.findById(req.user._id , (err, userInfo) => {
+        if(err) return res.status(400).json({ success: false, err })
+
+        if(userInfo.cart && userInfo.cart.length > 0) {
+            let book_id = userInfo.cart.map((cartItem) => {
+                return cartItem.id
+            });
+    
+            Book.find({ _id: { $in: book_id } }, (err, books) => { 
+                // $in을 이용하면 배열을 넣어 각각 요소들에 해당하는 정보를 모두 가져옴(반복문 쓸 필요 X)
+                if(err) return res.status(400).json({ sucess: false, err })
+                return res.status(200).json({ success: true, cart: userInfo.cart, books })
+            })
+        } else {
+            return res.status(400).json({ success: false })
+        }
+    })
+
+})
+
+// cart에서 상품 지우기 
 module.exports = router;

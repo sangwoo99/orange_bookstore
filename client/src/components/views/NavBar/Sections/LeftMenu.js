@@ -15,7 +15,6 @@ const LeftMenu = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Tabs
-        value
         onChange={handleMovePage}
         textColor="secondary"
         indicatorColor="secondary"

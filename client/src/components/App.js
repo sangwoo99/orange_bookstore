@@ -10,6 +10,7 @@ import ForeignPage from './views/LandingPage/DetailLandingPage/ForeignPage.js';
 import UsedPage from './views/LandingPage/DetailLandingPage/UsedPage.js';
 import StationeryPage from './views/LandingPage/DetailLandingPage/StationeryPage.js';
 import DetailPage from './views/DetailPage/DetailPage.js';
+import CartPage from './views/CartPage/CartPage.js';
 import Auth from '../hoc/auth';
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
             <Route path='/list/used' element={Auth(UsedPage, null)}/>
             <Route path='/list/stationery' element={Auth(StationeryPage, null)}/>
             <Route path='/detail/:id' element={Auth(DetailPage, null)}/>
-            {/* <Route path='/cart' element={Auth(DetailPage, null)}/> */}
+            <Route path='/cart' element={Auth(CartPage, true)}/>
           </Routes>
       </Suspense>
     </BrowserRouter>
