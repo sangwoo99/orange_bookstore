@@ -146,4 +146,25 @@ router.get('/getCart', auth, (req, res) => {
 })
 
 // cart에서 상품 지우기 
+router.post('/deleteCartItem', auth, (req, res) => {
+    console.log('req.body.book_id: ', req.body.book_id)
+    User.findOneAndUpdate( 
+        {_id : req.user._id}, 
+        {
+            // 지울 땐 $pull, 넣을 땐 $push
+            $pull: {
+                'cart' : { 'id': req.body.book_id }
+            }
+        }, 
+        { new: true },
+        ( err, userInfo ) => {
+        // let cartItemIds = userInfo.cart.map((item) => {
+        //     return item.id;
+        // });
+
+        if(err) return res.status(400).json({ success: false, err })
+        return res.status(200).json({ success: true, userInfo })
+    })
+})
+
 module.exports = router;
