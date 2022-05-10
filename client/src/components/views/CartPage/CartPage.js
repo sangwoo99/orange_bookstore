@@ -8,12 +8,13 @@ const [Rows, setRows] = useState([]);
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'image', headerName: '이미지', height: 100, width: 130, renderCell: (params) => {
-        return (
+    { field: 'images', headerName: '이미지', height: 100, width: 130, renderCell: (params) => {
+      console.log('params.row', params.row);  
+      return (
             <img
               style={{width: 70, height: 70}}
-              src={`http://localhost:5000/${params.row.image}`}
-              alt={params.row.image}
+              src={`http://localhost:5000/${params.row.images[0]}`}
+              alt={params.row.images[0]}
               loading="lazy"
             />
         )
@@ -32,8 +33,20 @@ const [Rows, setRows] = useState([]);
             book_id : params.row.id
           };
 
-          requestPostAPI('/api/users/deleteCartItem', 'DetailPage', body, () => {
+          requestPostAPI('/api/users/deleteCartItem', 'DetailPage', body, (data) => {
+            let cartInfo = data.userInfo.cart.map((cartItem) => {
+              let obj = {};
+              data.books.forEach((book) => {
+                  if(cartItem.id === book._id) {
+                      obj = Object.assign({}, cartItem, book )
+                      // obj = {...cartItem, ...book}
+                  }
+              })
 
+              return obj;
+            })
+            console.log('cartInfo', cartInfo);
+            setRows(cartInfo);
           })
       };
 
@@ -42,17 +55,6 @@ const [Rows, setRows] = useState([]);
     // material ui DataGrid안에 버튼, click 이벤트 넣기
     // https://stackoverflow.com/questions/64331095/how-to-add-a-button-to-every-row-in-mui-datagrid
   ];
-
-  // const handleDelete = (e) => {
-  //   console.log('target', e.target);
-  //   // let body = {
-  //   //   book_id : book._id
-  //   // };
-
-  //   // requestPostAPI('/deleteCartItem', 'DetailPage', body, () => {
-
-  //   // })
-  // }
 
   useEffect(() => {
       requestGetAPI('/api/users/getCart', 'DetailPage', null, (data) => {
@@ -69,7 +71,7 @@ const [Rows, setRows] = useState([]);
         console.log('cartInfo', cartInfo);
         
         const rows = cartInfo.map((book, index) => {
-          let bookRow = { id: book._id, image: book.images[0], title: book.title, writer: book.writer, publisher: book.publisher, price: book.price, count: book.count }
+          let bookRow = { id: book._id, images: book.images, title: book.title, writer: book.writer, publisher: book.publisher, price: book.price, count: book.count }
           return bookRow;
         });
 
@@ -88,7 +90,7 @@ const [Rows, setRows] = useState([]);
           rowsPerPageOptions={[5]}
           checkboxSelection
         />
-        <div>총 금액</div>
+        <div>총 금액 <span>1000</span></div>
       </div>
     </div>
   )

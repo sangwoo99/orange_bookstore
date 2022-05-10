@@ -29,7 +29,7 @@ export const requestPostAPI = (url, component, body, callback) => {
         .then(res => {
             apiResLog(url, component, res.data);
             if(res.data.success) {
-                callback();
+                callback(res.data);
             } else {
                 alert('400 error:', res.data.err);
             }

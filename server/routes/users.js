@@ -156,14 +156,18 @@ router.post('/deleteCartItem', auth, (req, res) => {
                 'cart' : { 'id': req.body.book_id }
             }
         }, 
-        { new: true },
+        { new: true }, // 업데이트 후 변화된 결과를 리턴
         ( err, userInfo ) => {
-        // let cartItemIds = userInfo.cart.map((item) => {
-        //     return item.id;
-        // });
+            if(err) return res.status(400).json({ success: false, err })
+            
+            let cartItemIds = userInfo.cart.map((item) => {
+                return item.id;
+            });
 
-        if(err) return res.status(400).json({ success: false, err })
-        return res.status(200).json({ success: true, userInfo })
+            Book.find({ _id: { $in: cartItemIds } }, (err, books) => {
+                if(err) return res.status(400).json({ success: false, err })
+                return res.status(200).json({ success: true, userInfo, books })
+            })
     })
 })
 
